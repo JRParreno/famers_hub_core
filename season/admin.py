@@ -10,6 +10,3 @@ class SeasonAdminView(admin.ModelAdmin):
     list_display = ('id', 'name', 'date_created', 'date_updated')
     ordering = ('name', 'date_updated')
     search_fields = ('name',)
-
-    def has_add_permission(self, request, obj=None):
-        return False

@@ -13,7 +13,7 @@ class Season(models.Model):
 
     name = models.CharField(choices=SEASON_CHOICES, default=NA, max_length=100)
     description = models.TextField()
-    season_image = models.ImageField(upload_to='season-images/')
+    season_image = models.ImageField(upload_to='season-images/', null=True, blank=True)
 
     def __str__(self):
         return self.name

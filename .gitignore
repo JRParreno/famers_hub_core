@@ -18,3 +18,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+static/
+season-images/
+profile-photo/
+insect-images/
+recommendation-season-photo/

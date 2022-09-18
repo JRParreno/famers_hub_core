@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'season',
     'prevent_measure',
     'insecticide',
+    'chemical_control',
 ]
 
 MIDDLEWARE = [

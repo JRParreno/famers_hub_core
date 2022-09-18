@@ -1,10 +1,6 @@
 from django.contrib import admin
-from recommendation.models import  RecommendationSeasons
-from infestation.models import Infestation, PreventMeasure, Symptom, Recommendation
-from chemical_control.models import ChemicalControl
-import nested_admin
-from django.db import models
-from django.forms import TextInput, Textarea
+from recommendation.models import RecommendationSeasons
+from infestation.models import Infestation, Recommendation
 
 
 class InfestationAdminInline(admin.StackedInline):
@@ -13,10 +9,12 @@ class InfestationAdminInline(admin.StackedInline):
     extra = 1
     show_change_link = True
 
+
 class RecommendationSeasonsAdminInline(admin.TabularInline):
     model = RecommendationSeasons
     max_num = 20
     extra = 1
+
 
 @admin.register(Recommendation)
 class RecommendationAdminView(admin.ModelAdmin):
@@ -24,4 +22,3 @@ class RecommendationAdminView(admin.ModelAdmin):
     ordering = ('author', 'name')
     search_fields = ('author', 'name')
     inlines = [RecommendationSeasonsAdminInline, InfestationAdminInline]
-  

@@ -25,13 +25,12 @@ SECRET_KEY = 'django-insecure-vvk@b!s+#wna1$d&$x6m$yk*!xc_@cn+q8tb%dxl%gil#i@0_*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'nested_admin',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,7 +47,13 @@ INSTALLED_APPS = [
     'infestation',
     'recommendation',
     'user_profile',
-    'agriculture'
+    'agriculture',
+    'api',
+
+    # rest
+    'rest_framework',
+    'drf_yasg',
+    'oauth2_provider'
 ]
 
 MIDDLEWARE = [
@@ -111,6 +116,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'},
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 2592000,
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -130,7 +158,17 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
+# EMAIL SETUP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

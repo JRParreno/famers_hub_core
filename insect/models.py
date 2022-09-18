@@ -5,7 +5,7 @@ class Insect(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField()
     link = models.TextField()
-    insect_image = models.ImageField(upload_to='insect-images/', null=True, blank=True)
+    insect_image = models.ImageField(upload_to='images/insects/', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True, null=True)
 

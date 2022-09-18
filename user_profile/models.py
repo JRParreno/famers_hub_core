@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
     profile_photo = models.ImageField(
-        upload_to='profile-photo/', blank=True, null=True)
+        upload_to='images/profiles/', blank=True, null=True)
 
 
     def __str__(self):

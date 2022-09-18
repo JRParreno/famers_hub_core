@@ -28,7 +28,7 @@ class RecommendationSeasons(models.Model):
     season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='recommendation_season')
     description = models.TextField()
     image =  models.ImageField(
-        upload_to='recommendation-season-photo/', blank=True, null=True)
+        upload_to='images/recommendation-season-photos/', blank=True, null=True)
     
     def __str__(self) -> str:
         return self.description

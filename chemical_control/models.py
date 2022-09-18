@@ -35,7 +35,7 @@ class ChemicalSafetyPrecaution(models.Model):
 
     chemical_control = models.ForeignKey(ChemicalControl, on_delete=models.CASCADE)
     description = models.TextField()
-    icon_image = models.ImageField(upload_to='icon-images/', null=True, blank=True)
+    icon_image = models.ImageField(upload_to='images/icons/', null=True, blank=True)
     link = models.TextField(blank=True, null=True)
     hazard_level = models.CharField(choices=HAZARD_CHOICES, default=NA, max_length=100)
 
@@ -46,7 +46,7 @@ class ChemicalSafetyPrecaution(models.Model):
 class ChemicalInstruction(models.Model):
     chemical_control = models.ForeignKey(ChemicalControl, on_delete=models.CASCADE)
     description = models.TextField()
-    icon_image = models.ImageField(upload_to='icon-images/', null=True, blank=True)
+    icon_image = models.ImageField(upload_to='images/icons/', null=True, blank=True)
     link = models.TextField(blank=True, null=True)
 
     def __str__(self):

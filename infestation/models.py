@@ -17,7 +17,7 @@ class Symptom(models.Model):
     infestation = models.ForeignKey(Infestation, on_delete=models.CASCADE)
     description = models.TextField()
     link = models.TextField()
-    symptom_image = models.ImageField(upload_to='symptom-images/', null=True, blank=True)
+    symptom_image = models.ImageField(upload_to='images/symptoms', null=True, blank=True)
 
     def __str__(self):
         return f'Symptom {self.description}'
@@ -28,7 +28,7 @@ class PreventMeasure(models.Model):
     infestation = models.ForeignKey(Infestation, on_delete=models.CASCADE)
     description = models.TextField()
     link = models.TextField(blank=True, null=True)
-    prevent_image = models.ImageField(upload_to='prevent-images/', null=True, blank=True)
+    prevent_image = models.ImageField(upload_to='images/prevents', null=True, blank=True)
     
     def __str__(self):
         return self.description

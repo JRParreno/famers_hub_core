@@ -4,7 +4,8 @@ from insecticide.models import Insecticide
 from infestation.models import Infestation
 
 class ChemicalControl(models.Model):
-    infestation = models.ForeignKey(Infestation, on_delete=models.CASCADE)
+    infestation = models.ForeignKey(Infestation, on_delete=models.CASCADE, related_name='chemical_control_infestation',
+        null=True, blank=True)
     reminder = models.TextField()
     link = models.TextField(blank=True, null=True)
     percentage = models.DecimalField(max_digits=3, decimal_places=0)
@@ -34,7 +35,7 @@ class ChemicalSafetyPrecaution(models.Model):
 
     chemical_control = models.ForeignKey(ChemicalControl, on_delete=models.CASCADE)
     description = models.TextField()
-    icon_image = models.ImageField(upload_to='icon-images/')
+    icon_image = models.ImageField(upload_to='icon-images/', null=True, blank=True)
     link = models.TextField(blank=True, null=True)
     hazard_level = models.CharField(choices=HAZARD_CHOICES, default=NA, max_length=100)
 
@@ -45,7 +46,7 @@ class ChemicalSafetyPrecaution(models.Model):
 class ChemicalInstruction(models.Model):
     chemical_control = models.ForeignKey(ChemicalControl, on_delete=models.CASCADE)
     description = models.TextField()
-    icon_image = models.ImageField(upload_to='icon-images/')
+    icon_image = models.ImageField(upload_to='icon-images/', null=True, blank=True)
     link = models.TextField(blank=True, null=True)
 
     def __str__(self):

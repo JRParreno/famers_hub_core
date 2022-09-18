@@ -8,3 +8,4 @@ env/
 identifier.sqlite
 runserver.sh
 db.sqlite3
+venv/

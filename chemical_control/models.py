@@ -8,14 +8,14 @@ class ChemicalControl(models.Model):
         null=True, blank=True)
     reminder = models.TextField()
     link = models.TextField(blank=True, null=True)
-    percentage = models.DecimalField(max_digits=3, decimal_places=0)
-
+    
     def __str__(self):
         return self.reminder
 
 class ChemicalInsecticide(models.Model):
     chemical_control = models.ForeignKey(ChemicalControl, on_delete=models.CASCADE)
     insecticide = models.ForeignKey(Insecticide, on_delete=models.CASCADE)
+    percentage = models.DecimalField(max_digits=3, decimal_places=0)
     
     def __str__(self):
         return self.insecticide.name

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,10 +41,10 @@ INSTALLED_APPS = [
 
     # apps
     'season',
-    'prevent_measure',
     'insecticide',
     'chemical_control',
     'insect',
+    'infestation',
 ]
 
 MIDDLEWARE = [

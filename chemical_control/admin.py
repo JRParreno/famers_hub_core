@@ -19,7 +19,7 @@ class ChemicalInstructionAdminInline(admin.StackedInline):
 
 @admin.register(ChemicalControl)
 class ChemicalControlAdminView(admin.ModelAdmin):
-    list_display = ('id', 'reminder', 'date_updated', 'date_created')
-    ordering = ('date_updated', 'reminder',)
+    list_display = ('id', 'reminder',)
+    ordering = ('reminder',)
     search_fields = ('reminder', )
     inlines = [ChemicalInsecticideAdminInline, SafetyPrecautionAdminInline, ChemicalInstructionAdminInline]

@@ -7,6 +7,6 @@ admin.site.unregister(Group)
 
 @admin.register(Season)
 class SeasonAdminView(admin.ModelAdmin):
-    list_display = ('id', 'name', 'date_created', 'date_updated')
-    ordering = ('name', 'date_updated')
+    list_display = ('id', 'name',)
+    ordering = ('name',)
     search_fields = ('name',)

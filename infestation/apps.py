@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PreventMeasureConfig(AppConfig):
+class InfestationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'prevent_measure'
+    name = 'infestation'

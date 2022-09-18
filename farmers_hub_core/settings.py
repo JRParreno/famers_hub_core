@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # apps
     'season',
     'prevent_measure',
+    'insecticide',
 ]
 
 MIDDLEWARE = [

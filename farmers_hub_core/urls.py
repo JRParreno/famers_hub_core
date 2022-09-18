@@ -13,10 +13,39 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import django
+from drf_yasg import openapi
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from django.contrib.auth import views as auth_views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .views import TokenViewWithUserId, home, about, contact
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Farmers hub API",
+        default_version='v1',
+        description="Testing API",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
-    path('nested_admin/', include('nested_admin.urls')),
+    path('swagger/', schema_view.with_ui('swagger',
+         cache_timeout=0), name='schema-swagger-ui'),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('o/login/', TokenViewWithUserId.as_view(), name='token'),
     path('admin/', admin.site.urls),
 ]
+
+if django.conf.settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(
+        django.conf.settings.MEDIA_URL, document_root=django.conf.settings.MEDIA_ROOT)

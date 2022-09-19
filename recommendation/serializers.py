@@ -19,7 +19,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recommendation
-        fields = ['pk', 'name', 'author', 'link', 'agriculture_type']
+        fields = ['pk', 'title', 'author', 'rate', 'link', 'agriculture_type']
 
     def __init__(self, *args, **kwargs):
         # init context and request

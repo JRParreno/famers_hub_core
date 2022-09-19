@@ -7,13 +7,14 @@ from django.utils import timezone
 
 class Recommendation(models.Model):
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     agriculture_type = models.ForeignKey(
         AgricultureType, on_delete=models.CASCADE, related_name='agriculture_type', parent_link=True,)
     link = models.TextField()
+    rate = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def agriculture_type_name(self):
         return self.agriculture_type.name

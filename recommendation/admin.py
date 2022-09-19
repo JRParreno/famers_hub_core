@@ -18,12 +18,12 @@ class RecommendationSeasonsAdminInline(admin.TabularInline):
 
 @admin.register(Recommendation)
 class RecommendationAdminView(admin.ModelAdmin):
-    list_display = ('id', 'author', 'name', 'agriculture_type_name')
-    ordering = ('author', 'name')
-    search_fields = ('author', 'name')
+    list_display = ('id', 'author', 'title', 'agriculture_type_name')
+    ordering = ('author', 'title')
+    search_fields = ('author', 'title')
     inlines = [RecommendationSeasonsAdminInline, InfestationAdminInline]
     fieldsets = (
         (None, {
-            'fields': ('name', 'author', 'agriculture_type')
+            'fields': ('title', 'author', 'agriculture_type')
         }),
     )

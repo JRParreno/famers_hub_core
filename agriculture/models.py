@@ -5,6 +5,8 @@ from django.utils import timezone
 class Agriculture(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    agriculture_image = models.ImageField(
+        upload_to='images/agriculture/', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -24,6 +26,8 @@ class AgricultureType(models.Model):
         Agriculture, on_delete=models.CASCADE, related_name='agriculture_sub')
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    agriculture_type_image = models.ImageField(
+        upload_to='images/agriculture-type/', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -35,4 +39,4 @@ class AgricultureType(models.Model):
         if not self.id:
             self.date_created = timezone.now()
         self.date_updated = timezone.now()
-        return super(Agriculture, self).save(*args, **kwargs)
+        return super(AgricultureType, self).save(*args, **kwargs)

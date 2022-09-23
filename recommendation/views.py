@@ -27,11 +27,13 @@ class RecommendationListView(generics.ListAPIView):
         if rate:
             return Recommendation.objects.filter(
                 rate=rate).order_by('rate', 'title')
-        error = {
-            "error_message": "Recommendation not found"
-        }
-        raise exceptions.ValidationError(
-            detail=error, code=status.HTTP_400_BAD_REQUEST)
+        return Recommendation.objects.all().order_by('rate', 'title')
+
+        # error = {
+        #     "error_message": "Recommendation not found"
+        # }
+        # raise exceptions.ValidationError(
+        #     detail=error, code=status.HTTP_400_BAD_REQUEST)
 
 
 class RecommendationDetailView(generics.RetrieveAPIView):

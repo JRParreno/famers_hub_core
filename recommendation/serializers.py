@@ -4,6 +4,7 @@ from .models import Recommendation, RecommendationSeasons
 from season.serializers import SeasonSerializer
 from agriculture.serializers import AgricultureTypeSerializer
 from infestation.serializers import InfestationSerializer
+from user_profile.serializers import AuthorSerializer
 
 
 class RecommendationSeasonsSerializer(serializers.ModelSerializer):
@@ -16,6 +17,7 @@ class RecommendationSeasonsSerializer(serializers.ModelSerializer):
 
 class RecommendationSerializer(serializers.ModelSerializer):
     agriculture_type = AgricultureTypeSerializer()
+    author = AuthorSerializer()
 
     class Meta:
         model = Recommendation

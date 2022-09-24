@@ -15,15 +15,16 @@ class RecommendationListView(generics.ListAPIView):
         agriculture_type = self.request.query_params.get('type', None)
         title = self.request.query_params.get('title', None)
         rate = self.request.query_params.get('rate', None)
+        if title and agriculture_type and rate:
+            return Recommendation.objects.filter(
+                title__contains=title, agriculture_type=agriculture_type,  rate=rate).order_by('rate', 'title')
+        if title and agriculture_type:
+            return Recommendation.objects.filter(
+                title__contains=title, agriculture_type=agriculture_type).order_by('rate', 'title')
+
         if agriculture_type:
             return Recommendation.objects.filter(
-                agriculture_type=agriculture_type)
-        if title and rate:
-            return Recommendation.objects.filter(
-                title__contains=title, rate=rate).order_by('rate', 'title')
-        if title:
-            return Recommendation.objects.filter(
-                title__contains=title).order_by('rate', 'title')
+                agriculture_type=agriculture_type).order_by('rate', 'title')
         if rate:
             return Recommendation.objects.filter(
                 rate=rate).order_by('rate', 'title')

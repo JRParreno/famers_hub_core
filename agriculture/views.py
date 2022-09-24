@@ -20,6 +20,12 @@ class AgricultureTypeListView(generics.ListAPIView):
 
     def get_queryset(self):
         agriculture_pk = self.request.query_params.get('agriculture_pk', None)
+        title = self.request.query_params.get('title', None)
+
+        if agriculture_pk and title:
+            return AgricultureType.objects.filter(
+                agriculture=agriculture_pk, name__contains=title)
+
         if agriculture_pk:
             return AgricultureType.objects.filter(
                 agriculture=agriculture_pk)

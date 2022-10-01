@@ -118,7 +118,7 @@
             if (!$themeCSS.length) {
                 const staticSrc = $('#adminlte-css').attr('href').split('vendor')[0]
                 $themeCSS = $('<link>').attr({
-                    'href': staticSrc + 'vendor/bootswatch/default/bootstrap.min.css',
+                    'href': staticSrc + 'vendor/bootswatch/default/test/bootstrap.min.css',
                     'rel': 'stylesheet',
                     'id': 'jazzmin-theme'
                 }).appendTo('head');

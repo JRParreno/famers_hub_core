@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     # rest
     'rest_framework',
     'drf_yasg',
-    'oauth2_provider'
+    'oauth2_provider',
+    'gunicorn'
 ]
 
 MIDDLEWARE = [

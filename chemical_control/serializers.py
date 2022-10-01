@@ -12,7 +12,7 @@ class ChemicalInstructionSerializer(serializers.ModelSerializer):
 class ChemicalSafetyPrecautionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChemicalSafetyPrecaution
-        fields = ['pk', 'description', 'icon_image', 'link', 'hazard_level']
+        fields = ['pk', 'description', 'icon_image', 'link']
 
 
 class ChemicalInsecticideSerializer(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class ChemicalInsecticideSerializer(serializers.ModelSerializer):
 class ChemicalControlSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChemicalControl
-        fields = ['pk', 'reminder', 'link']
+        fields = ['pk', 'reminder', 'link', 'hazard_level']
 
     def __init__(self, *args, **kwargs):
         # init context and request

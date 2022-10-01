@@ -5,10 +5,24 @@ from infestation.models import Infestation
 
 
 class ChemicalControl(models.Model):
+    LOW = 'LOW'
+    MODERATE = 'MODERATE'
+    HIGH = 'HIGH'
+    NA = 'N/A'
+
+    HAZARD_CHOICES = [
+        (LOW, 'Low Toxic'),
+        (MODERATE, 'Moderate Toxic'),
+        (HIGH, 'High Toxic'),
+        (NA, 'N/A'),
+    ]
+
     infestation = models.ForeignKey(Infestation, on_delete=models.CASCADE, related_name='chemical_control_infestation',
                                     null=True, blank=True)
     reminder = models.TextField()
     link = models.TextField(blank=True, null=True)
+    hazard_level = models.CharField(
+        choices=HAZARD_CHOICES, default=NA, max_length=100)
 
     def __str__(self):
         return self.reminder
@@ -25,17 +39,6 @@ class ChemicalInsecticide(models.Model):
 
 
 class ChemicalSafetyPrecaution(models.Model):
-    LOW = 'LOW'
-    MODERATE = 'MODERATE'
-    HIGH = 'HIGH'
-    NA = 'N/A'
-
-    HAZARD_CHOICES = [
-        (LOW, 'Low Toxic'),
-        (MODERATE, 'Moderate Toxic'),
-        (HIGH, 'High Toxic'),
-        (NA, 'N/A'),
-    ]
 
     chemical_control = models.ForeignKey(
         ChemicalControl, on_delete=models.CASCADE, related_name='chemical_control_precaution')
@@ -43,8 +46,6 @@ class ChemicalSafetyPrecaution(models.Model):
     icon_image = models.ImageField(
         upload_to='images/icons/', null=True, blank=True)
     link = models.TextField(blank=True, null=True)
-    hazard_level = models.CharField(
-        choices=HAZARD_CHOICES, default=NA, max_length=100)
 
     def __str__(self):
         return self.description

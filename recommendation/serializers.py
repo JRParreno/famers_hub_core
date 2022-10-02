@@ -44,3 +44,27 @@ class RecommendationSerializer(serializers.ModelSerializer):
             data['seasons'] = seasons.data
             data['infestations'] = infestations.data
         return data
+
+
+class AddRateSerializer(serializers.ModelSerializer):
+    my_rate = serializers.IntegerField(required=True, write_only=True)
+
+    class Meta:
+        model = Recommendation
+        fields = ['pk', 'my_rate']
+
+    def __init__(self, *args, **kwargs):
+        # init context and request
+        context = kwargs.get('context', {})
+        self.request = context.get('request', None)
+        self.kwargs = context.get("kwargs", None)
+
+        super(AddRateSerializer, self).__init__(*args, **kwargs)
+
+    def update(self, instance, validated_data):
+        my_rate = validated_data.pop('my_rate', None)
+
+        if my_rate:
+            instance.rate += my_rate
+            instance.save()
+        return super().update(instance, validated_data)

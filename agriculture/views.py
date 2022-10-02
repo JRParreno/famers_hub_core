@@ -24,7 +24,7 @@ class AgricultureTypeListView(generics.ListAPIView):
 
         if agriculture_pk and title:
             return AgricultureType.objects.filter(
-                agriculture=agriculture_pk, name__contains=title)
+                agriculture=agriculture_pk, name__icontains=title)
 
         if agriculture_pk:
             return AgricultureType.objects.filter(

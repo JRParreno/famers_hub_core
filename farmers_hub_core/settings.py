@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'recommendation',
     'user_profile',
     'agriculture',
+    'community',
     'api',
 
     # rest

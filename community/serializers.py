@@ -7,12 +7,23 @@ from core.utils import get_random_code
 from django.core.files.base import ContentFile
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    profile = AuthorSerializer()
+
+    class Meta:
+        model = Comment
+        fields = ('pk', 'post', 'profile',
+                  'description', 'date_created',
+                  'date_updated'
+                  )
+
+
 class PostSerializer(serializers.ModelSerializer):
-    # author = AuthorSerializer()
+    profile = AuthorSerializer()
 
     class Meta:
         model = Post
-        fields = ('pk', 'author',
+        fields = ('pk', 'profile',
                   'description', 'image', 'date_created',
                   'date_updated'
                   )
@@ -28,11 +39,14 @@ class PostSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(PostSerializer, self).to_representation(instance)
         if 'request' in self.context and self.request:
-            authors = UserProfile.objects.all().filter(user=data['author'])
-            if authors.exists():
-                author = authors.first()
-                post_author = AuthorSerializer(author)
-                data['author'] = post_author.data
+            detail_pk = self.context['view'].kwargs['pk'] if 'pk' in self.context['view'].kwargs else None
+            commment_total = Comment.objects.filter(post=data['pk']).count()
+            if detail_pk is not None and commment_total > 0:
+                comments = CommentSerializer(
+                    instance.post_comment_user.all(), many=True)
+                data['comments'] = comments.data
+
+            data['commment_total'] = commment_total
         return data
 
 

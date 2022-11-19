@@ -16,6 +16,12 @@ class PostListView(generics.ListAPIView):
     pagination_class = ExtraSmallResultsSetPagination
 
 
+class PostDetailView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.all().order_by('-date_updated')
+
+
 class PostCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostCreateSerializer

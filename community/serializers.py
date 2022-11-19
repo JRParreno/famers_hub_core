@@ -39,14 +39,8 @@ class PostSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(PostSerializer, self).to_representation(instance)
         if 'request' in self.context and self.request:
-            detail_pk = self.context['view'].kwargs['pk'] if 'pk' in self.context['view'].kwargs else None
             commment_total = Comment.objects.filter(post=data['pk']).count()
-            if detail_pk is not None and commment_total > 0:
-                comments = CommentSerializer(
-                    instance.post_comment_user.all(), many=True)
-                data['comments'] = comments.data
-
-            data['commment_total'] = commment_total
+            data['comment_total'] = commment_total
         return data
 
 

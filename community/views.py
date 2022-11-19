@@ -1,12 +1,10 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions, response, status
+from rest_framework import generics, permissions, response, status, exceptions
 
 from core.paginate import ExtraSmallResultsSetPagination
-from .models import Post
-from .serializers import PostSerializer, PostCreateSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer, PostCreateSerializer, CommentSerializer
 # , PostUpdateSerializer
-
-# Create your views here.
 
 
 class PostListView(generics.ListAPIView):
@@ -25,3 +23,22 @@ class PostDetailView(generics.RetrieveAPIView):
 class PostCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostCreateSerializer
+
+
+class CommentListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all().order_by('-date_updated')
+    pagination_class = ExtraSmallResultsSetPagination
+
+    def get_queryset(self):
+        post = self.request.query_params.get('post', None)
+        comments = Comment.objects.filter(
+            post__pk=post).order_by('-date_updated')
+        if post and comments.exists():
+            return comments
+        error = {
+            "error_message": "Post not found"
+        }
+        raise exceptions.ValidationError(
+            detail=error, code=status.HTTP_400_BAD_REQUEST)

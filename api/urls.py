@@ -5,12 +5,15 @@ from agriculture.views import AgricultureListView, AgricultureTypeListView
 from recommendation.views import RecommendationListView, RecommendationDetailView, RecommendationRateView
 from farmers_hub_core.views import RegisterView
 from community.views import PostCreateView, PostListView
+from user_profile.views import UserProfileView
 
 app_name = 'api'
 
 urlpatterns = [
     # community
     path('register', RegisterView.as_view(), name='register'),
+    path('profile', UserProfileView.as_view(), name='profile'),
+
     path('post/list', PostListView.as_view(), name='post-list'),
     path('post/create', PostCreateView.as_view(), name='post-create'),
 

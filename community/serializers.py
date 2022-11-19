@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    profile = AuthorSerializer()
+    profile = AuthorSerializer(read_only=True)
 
     class Meta:
         model = Comment
@@ -16,6 +16,27 @@ class CommentSerializer(serializers.ModelSerializer):
                   'description', 'date_created',
                   'date_updated'
                   )
+
+    def __init__(self, *args, **kwargs):
+        # init context and request
+        context = kwargs.get('context', {})
+        self.request = context.get('request', None)
+        self.kwargs = context.get("kwargs", None)
+
+        super(CommentSerializer, self).__init__(*args, **kwargs)
+
+    def create(self, validated_data):
+        current_user = self.request.user
+        description = validated_data.pop('description')
+        post = validated_data.pop('post')
+        users_profile = UserProfile.objects.get(user=current_user)
+
+        comment_instance = Comment.objects.create(
+            post=post, description=description, profile=users_profile)
+
+        comment_instance.save()
+
+        return comment_instance
 
 
 class PostSerializer(serializers.ModelSerializer):

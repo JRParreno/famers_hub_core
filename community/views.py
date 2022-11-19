@@ -25,6 +25,11 @@ class PostCreateView(generics.CreateAPIView):
     serializer_class = PostCreateSerializer
 
 
+class CommentCreateView(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CommentSerializer
+
+
 class CommentListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CommentSerializer
@@ -33,12 +38,17 @@ class CommentListView(generics.ListAPIView):
 
     def get_queryset(self):
         post = self.request.query_params.get('post', None)
-        comments = Comment.objects.filter(
-            post__pk=post).order_by('-date_updated')
-        if post and comments.exists():
+
+        check_post = Post.objects.filter(pk=post)
+
+        if check_post.exists():
+
+            comments = Comment.objects.filter(
+                post__pk=post).order_by('-date_updated')
             return comments
-        error = {
-            "error_message": "Post not found"
-        }
+        else:
+            error = {
+                "error_message": "Post not found"
+            }
         raise exceptions.ValidationError(
             detail=error, code=status.HTTP_400_BAD_REQUEST)

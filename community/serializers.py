@@ -71,9 +71,19 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('pk', 'user', 'description', 'image')
+        fields = ('pk', 'description', 'image')
+
+    def __init__(self, *args, **kwargs):
+        # init context and request
+        context = kwargs.get('context', {})
+        self.request = context.get('request', None)
+        self.kwargs = context.get("kwargs", None)
+
+        super(PostCreateSerializer, self).__init__(*args, **kwargs)
 
     def create(self, validated_data):
+        current_user = self.request.user
+        users_profile = UserProfile.objects.get(user=current_user)
 
         def extract_file(base64_string, image_type):
             img_format, img_str = base64_string.split(';base64,')
@@ -82,10 +92,9 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
         image = validated_data.pop('image', None)
 
-        author = validated_data.pop('user')
         description = validated_data.pop('description')
         post_instance = Post.objects.create(
-            user=author, description=description)
+            profile=users_profile, description=description)
 
         if image:
             filename, data = extract_file(

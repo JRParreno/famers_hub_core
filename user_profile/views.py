@@ -47,11 +47,10 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
         user = self.request.user
         user_details = self.request.data.get('user')
         mobile_number = self.request.data.get('mobile_number')
-        address = self.request.data.get('address')
         email = UserProfile.objects.filter(
             user__email=user_details['email']).exclude(user=user).exists()
         check_mobile_number = UserProfile.objects.filter(
-            mobile_number=mobile_number).exclude(user=user).exists()
+            user__username=mobile_number).exclude(user=user).exists()
 
         if email:
             error = {

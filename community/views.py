@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, response, status, exceptions
 
 from core.paginate import ExtraSmallResultsSetPagination
 from .models import Post, Comment
-from .serializers import PostSerializer, PostCreateSerializer, CommentSerializer
+from .serializers import PostSerializer, PostCreateSerializer, CommentSerializer, PostUpdateSerializer
 # , PostUpdateSerializer
 
 
@@ -14,7 +14,7 @@ class PostListView(generics.ListAPIView):
     pagination_class = ExtraSmallResultsSetPagination
 
 
-class PostDetailView(generics.RetrieveAPIView):
+class PostDetailView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all().order_by('-date_updated')
@@ -23,6 +23,18 @@ class PostDetailView(generics.RetrieveAPIView):
 class PostCreateView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostCreateSerializer
+
+
+class PostUpdateView(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostUpdateSerializer
+    queryset = Post.objects.all().order_by('-date_updated')
+
+
+class PostDeleteView(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostUpdateSerializer
+    queryset = Post.objects.all().order_by('-date_updated')
 
 
 class CommentCreateView(generics.CreateAPIView):

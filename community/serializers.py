@@ -40,7 +40,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    profile = AuthorSerializer()
+    profile = AuthorSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -104,3 +104,44 @@ class PostCreateSerializer(serializers.ModelSerializer):
         post_instance.save()
 
         return post_instance
+
+
+class PostUpdateSerializer(serializers.ModelSerializer):
+    image = serializers.CharField(
+        allow_null=False, required=True)
+
+    class Meta:
+        model = Post
+        fields = ('pk', 'description', 'image')
+
+    def __init__(self, *args, **kwargs):
+        # init context and request
+        context = kwargs.get('context', {})
+        self.request = context.get('request', None)
+        self.kwargs = context.get("kwargs", None)
+
+        super(PostUpdateSerializer, self).__init__(*args, **kwargs)
+
+    def update(self, instance, validated_data):
+        current_user = self.request.user
+        users_profile = UserProfile.objects.get(user=current_user)
+
+        def extract_file(base64_string, image_type):
+            img_format, img_str = base64_string.split(';base64,')
+            ext = img_format.split('/')[-1]
+            return f"post-image-{get_random_code()}-{image_type}.{ext}", ContentFile(base64.b64decode(img_str))
+
+        image = validated_data.pop('image', None)
+        pk = validated_data.pop('pk', None)
+
+        description = validated_data.pop('description')
+        instance.description = description
+
+        if image:
+            filename, data = extract_file(
+                image, 'image')
+            instance.image.save(filename, data, save=True)
+
+        instance.save()
+
+        return instance

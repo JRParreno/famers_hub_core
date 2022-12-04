@@ -33,3 +33,8 @@ class RegisterSerializer(serializers.ModelSerializer):
                 {"error_message": "Passwords do not match"})
 
         return data
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from season.views import SeasonListView
 from agriculture.views import AgricultureListView, AgricultureTypeListView
 from recommendation.views import RecommendationListView, RecommendationDetailView, RecommendationRateView
-from farmers_hub_core.views import RegisterView
+from farmers_hub_core.views import ChangePasswordView, RegisterView
 from community.views import (PostCreateView, PostListView, PostDetailView,
                              CommentListView, CommentCreateView, PostUpdateView, PostDeleteView)
 from user_profile.views import UserProfileView
@@ -20,6 +20,7 @@ urlpatterns = [
     path('post/create', PostCreateView.as_view(), name='post-create'),
     path('post/update/<pk>', PostUpdateView.as_view(), name='post-update'),
     path('post/delete/<pk>', PostDeleteView.as_view(), name='post-delete'),
+    path('change-password', ChangePasswordView.as_view(), name='change-password'),
 
 
     path('comment/list', CommentListView.as_view(), name='comment-list'),

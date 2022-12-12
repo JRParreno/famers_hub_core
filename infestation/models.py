@@ -4,12 +4,23 @@ from recommendation.models import Recommendation
 
 
 class Infestation(models.Model):
+    FLOWERING = 'FLOWERING'
+    HARVESTING = 'HARVESTING'
+    NA = 'N/A'
+
+    STAGES = [
+        (FLOWERING, 'Flowering'),
+        (HARVESTING, 'Harvesting'),
+        (NA, 'N/A'),
+    ]
+
     recommendation = models.ForeignKey(Recommendation, on_delete=models.CASCADE, related_name='recommendation_infestation',
                                        null=True, blank=True)
     insect = models.ForeignKey(Insect, on_delete=models.CASCADE)
     recommendation_description = models.TextField()
     organic_control = models.TextField()
     link = models.TextField()
+    insect_stage = models.CharField(choices=STAGES, default=NA, max_length=100)
 
     def __str__(self):
         return f'Infestation: {self.recommendation}'

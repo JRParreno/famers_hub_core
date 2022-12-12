@@ -25,7 +25,7 @@ class InfestationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Infestation
         fields = ['pk', 'insect', 'recommendation_description',
-                  'organic_control', 'link']
+                  'organic_control', 'link', 'insect_stage']
 
     def __init__(self, *args, **kwargs):
         # init context and request

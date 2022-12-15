@@ -22,7 +22,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from .views import TokenViewWithUserId, home, about, contact
+from .views import TokenViewWithUserId, home, about, contact, term_condition, privacy_policy
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -44,6 +44,11 @@ urlpatterns = [
     path('o/login/', TokenViewWithUserId.as_view(), name='token'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls', namespace='api')),
+    path('terms-and-condition/', term_condition, name="term_condition"),
+    path('help/', help, name="help"),
+    path('privacy-policy/', privacy_policy, name="privacy_policy"),
+
+
 ]
 
 if django.conf.settings.DEBUG:

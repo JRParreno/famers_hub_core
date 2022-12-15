@@ -202,3 +202,18 @@ def about(request):
 def contact(request):
 
     return render(request, 'contact.html',)
+
+
+def help(request):
+
+    return render(request, 'help.html',)
+
+
+def term_condition(request):
+
+    return render(request, 'terms-and-conditions.html',)
+
+
+def privacy_policy(request):
+
+    return render(request, 'privacy-policy.html',)
